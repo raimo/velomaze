@@ -1,0 +1,19 @@
+{
+  "name": "nko3-copypastel",
+  "version": "0.0.0",
+  "description": "copypastel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nko3/copypastel.git"
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": "0.8.x"
+  },
+  "subdomain": "copypastel.nko3"
+}
