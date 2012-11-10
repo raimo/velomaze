@@ -23,7 +23,10 @@ $(function() {
     vy: 0
   };
   var walls = [
-    {x: 0}
+    { sx: 0, sy: 0, dx: 10, dy: 0 }, // top edge
+    { sx: 0, sy: 10, dx: 10, dy: 10 }, // bottom edge
+    { sx: 10, sy: 0, dx: 10, dy: 10 }, // right edge
+    { sx: 0, sy: 0, dx: 0, dy: 10 } // left edge
   ];
   var frame = 0;
   function update() {
