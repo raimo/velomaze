@@ -173,4 +173,11 @@ $(function() {
   }
 
   window.setInterval(function() { update(); }, 100);
+  window.setInterval(function() {
+    $.post('/gamestate', function (data) {
+        if (data) {
+            console.log(data);
+        }
+    });
+  }, 1000);
 });
