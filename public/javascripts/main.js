@@ -18,7 +18,7 @@ $(function() {
   };
   ball = {
     x: 0.5,
-    y: maze.rows/2.0,
+    y: 0.5,
     vx: 0,
     vy: 0
   };
@@ -30,8 +30,10 @@ $(function() {
     $('#status').html('Frame: ' + frame + ', width= ' + maze.getSquareWidth());
     if (!ball.element) {
       ball.element = $('<div class="ball" />');
-      ball.element.css('width', (maze.getSquareWidth() / 2) + 'px');
-      ball.element.css('height', (maze.getSquareHeigth() / 2) + 'px');
+      ball.width = (maze.getSquareWidth() / 2);
+      ball.height = (maze.getSquareHeigth() / 2);
+      ball.element.css('width', ball.width + 'px');
+      ball.element.css('height', ball.height + 'px');
       $('body').append(ball.element);
     }
     ball.vx += thresolded(Math.sin(leftRightAngle)/10.0);
@@ -40,8 +42,8 @@ $(function() {
     ball.vy = thresolded(ball.vy * 0.85);
     ball.x += thresolded(ball.vx);
     ball.y += thresolded(ball.vy);
-    ball.element.css('left', (ball.x * maze.getSquareWidth()) + 'px');
-    ball.element.css('top', (ball.y * maze.getSquareHeigth()) + 'px');
+    ball.element.css('left', (ball.x * maze.getSquareWidth() + 30 - ball.width / 2.0) + 'px');
+    ball.element.css('top', (ball.y * maze.getSquareHeigth() + 30 - ball.height / 2.0) + 'px');
     frame++;
   };
 
