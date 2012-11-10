@@ -73,7 +73,10 @@ $(function() {
     { sx: 0, sy: 0, dx: 0, dy: 10 } // left edge
   ];
   var holes = [
-    { x: 3.5, y: 1.5, r: 0.7 } 
+    { x: 3.5, y: 1.5, r: 0.5 },
+    { x: 3.5, y: 6.5, r: 0.5 },
+    { x: 5.5, y: 7.5, r: 0.5 },
+    { x: 6.5, y: 5.5, r: 0.5 },
   ];
   for (var i = 0; i < holes.length; i++) {
       maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
