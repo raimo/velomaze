@@ -1,5 +1,3 @@
-var domain = require('domain').create();
-
 var express = require('express');
 var app = express();
 var server;
@@ -22,11 +20,14 @@ app.post('/failures', function(req, res) {
     return res.send();
 });
 
-if (domain) {
+try {
+    var domain = require('domain').create();
     domain.add(server);
     domain.on('error', function (e){
         console.log('Got', e);
         server.close();
     });
+} catch (e) {
+    console.log('require("domain") failed');
 }
 
