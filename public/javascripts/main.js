@@ -58,6 +58,14 @@ $(function() {
                 });
             });
         }
+        for (var i = 0; i < walls.length; i++) {
+            /*
+            checkBallWall(ball, walls[i], function(impact) {
+                ball.vx += impact.e(1);
+                ball.vy += impact.e(2);
+            });
+            */
+        }
         ball.x += ball.vx;
         ball.y += ball.vy;
         ball.element.css('left', (ball.x * maze.getSquareWidth() + 30 - ball.width / 2.0) + 'px');
