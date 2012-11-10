@@ -35,27 +35,34 @@ $(function() {
   var frame = 0;
   function update() {
     $('#status').html('Frame: ' + frame + ', width= ' + maze.getSquareWidth());
-    if (!ball.element) {
-      ball.element = $('<div class="ball" />');
-      ball.width = (maze.getSquareWidth() * ball.r);
-      ball.height = (maze.getSquareHeigth() * ball.r);
-      ball.element.css('width', ball.width + 'px');
-      ball.element.css('height', ball.height + 'px');
-      $('body').append(ball.element);
+    if (!ball.dropped) {
+        if (!ball.element) {
+          ball.element = $('<div class="ball" />');
+          ball.width = (maze.getSquareWidth() * ball.r);
+          ball.height = (maze.getSquareHeigth() * ball.r);
+          ball.element.css('width', ball.width + 'px');
+          ball.element.css('height', ball.height + 'px');
+          $('body').append(ball.element);
+        }
+        ball.vx += thresholded(Math.sin(leftRightAngle)/10.0);
+        ball.vy += thresholded(Math.sin(frontBackAngle)/10.0);
+        ball.vx = thresholded(ball.vx * 0.85);
+        ball.vy = thresholded(ball.vy * 0.85);
+        for (var i = 0; i < holes.length; i++) {
+            checkBallHole(ball, holes[i], function(position) {
+                ball.dropped = true;
+                ball.x = position.e(1);
+                ball.y = position.e(2);
+                ball.element.fadeOut(function () {
+                    alert('You friggin\' dropped it!');
+                });
+            });
+        }
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.element.css('left', (ball.x * maze.getSquareWidth() + 30 - ball.width / 2.0) + 'px');
+        ball.element.css('top', (ball.y * maze.getSquareHeigth() + 30 - ball.height / 2.0) + 'px');
     }
-    ball.vx += thresholded(Math.sin(leftRightAngle)/10.0);
-    ball.vy += thresholded(Math.sin(frontBackAngle)/10.0);
-    ball.vx = thresholded(ball.vx * 0.85);
-    ball.vy = thresholded(ball.vy * 0.85);
-    for (var i = 0; i < holes.length; i++) {
-        checkBallHole(ball, holes[i], function(position) {
-            console.log(position);
-        });
-    }
-    ball.x += ball.vx;
-    ball.y += ball.vy;
-    ball.element.css('left', (ball.x * maze.getSquareWidth() + 30 - ball.width / 2.0) + 'px');
-    ball.element.css('top', (ball.y * maze.getSquareHeigth() + 30 - ball.height / 2.0) + 'px');
     frame++;
   };
 
