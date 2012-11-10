@@ -1,14 +1,10 @@
-var http = require('http');
-var domain = require('domain').create();
-var server = http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  xres.end('Hello World\n');
-}).listen(8000);
+var express = require('express');
+var app = express();
 
-/* Error handler inside domain*/
-domain.add(server);
-domain.on('error', function(err) {
-    console.log('We got error (waiting for stuff to get fixed and closing, Nodejitsu will spawn new server)', err);
-    server.close();
+app.configure(function() {
+     app.use(express.methodOverride());
+     app.use(express.static(__dirname + '/public'));
 });
-console.log('Server running at http://0.0.0.0:8000/');
+
+app.listen(3000);
+console.log('Listening on port 3000');
