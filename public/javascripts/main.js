@@ -1,6 +1,29 @@
-
-var ball;
 var maze;
+
+function thresholded(n) {
+    if (n > -0.005 && n < 0.005) {
+        return 0;
+    } else {
+        return n;
+    }
+}
+
+function checkBallHole(ball, hole, dropped) {
+    var holeVector = $V([hole.x, hole.y]);
+    var ballVector = $V([ball.x, ball.y]);
+    //if (ball.vx != 0 || ball.vy != 0) {
+    //     var closestPoint = Line.Segment.create(
+    //       $V([ball.x,           ball.y          ]), 
+    //       $V([ball.x + ball.vx, ball.y + ball.vy])).pointClosestTo(holeVector);
+    //     if (closestPoint != null) {
+    //         ballVector = closestPoint;
+    //     }
+    //}
+    console.log(ball.x, ball.y, ballVector.distanceFrom(holeVector));
+    if (ballVector.distanceFrom(holeVector) < hole.r) {
+        dropped(ballVector);
+    }
+}
 
 $(function() {
   var frontBackAngle = 0;
@@ -14,9 +37,29 @@ $(function() {
     },
     getSquareHeigth: function() {
         return Math.min(maze.element.width(), maze.element.height()) / maze.rows;
+    },
+    setElementPosition: function(element, x, y) {
+        element.css('left', (x * maze.getSquareWidth() + 30 - element.width() / 2.0) + 'px');
+        element.css('top',  (y * maze.getSquareHeigth() + 30 - element.height() / 2.0)+ 'px');
+    },
+    setElementPosition: function(element, x, y) {
+        element.css('left', (x * maze.getSquareWidth() + 30 - element.width() / 2.0) + 'px');
+        element.css('top',  (y * maze.getSquareHeigth() + 30 - element.height() / 2.0)+ 'px');
+    },
+    makeSpriteElement: function(jqstr, sprite) {
+        var element = $(jqstr);
+        sprite.element = element;
+        sprite.width = (maze.getSquareWidth() * sprite.r * 2);
+        sprite.height = (maze.getSquareHeigth() * sprite.r * 2);
+        element.css('position', 'absolute');
+        element.css('width', sprite.width + 'px');
+        element.css('height', sprite.height + 'px');
+        maze.setElementPosition(element, sprite.x, sprite.y);
+        $('body').append(element);
+        return element;
     }
   };
-  ball = {
+  var ball = {
     x: 0.5,
     y: 0.5,
     vx: 0,
@@ -30,19 +73,17 @@ $(function() {
     { sx: 0, sy: 0, dx: 0, dy: 10 } // left edge
   ];
   var holes = [
-    { x: 3.5, y: 1.5, r: 0.5 } 
+    { x: 3.5, y: 1.5, r: 0.7 } 
   ];
+  for (var i = 0; i < holes.length; i++) {
+      maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
+  }
   var frame = 0;
   function update() {
-    $('#status').html('Frame: ' + frame + ', width= ' + maze.getSquareWidth());
+    $('#status').html('Frame: ' + frame);
     if (!ball.dropped) {
         if (!ball.element) {
-          ball.element = $('<div class="ball" />');
-          ball.width = (maze.getSquareWidth() * ball.r);
-          ball.height = (maze.getSquareHeigth() * ball.r);
-          ball.element.css('width', ball.width + 'px');
-          ball.element.css('height', ball.height + 'px');
-          $('body').append(ball.element);
+          ball.element = maze.makeSpriteElement('<div class="ball" />', ball);
         }
         ball.vx += thresholded(Math.sin(leftRightAngle)/10.0);
         ball.vy += thresholded(Math.sin(frontBackAngle)/10.0);
@@ -53,9 +94,15 @@ $(function() {
                 ball.dropped = true;
                 ball.x = position.e(1);
                 ball.y = position.e(2);
-                ball.element.fadeOut(function () {
-                    alert('You friggin\' dropped it!');
-                });
+                ball.element.animate({
+                    width: ball.width/2 + 'px',
+                    height: ball.height/2 + 'px',
+                    'margin-top': ball.height/2 + 'px',
+                    'margin-left': ball.width/2 + 'px',
+                    opacity: 0,
+                    left: holes[i].element.css('left'),
+                    top: holes[i].element.css('top')
+                }, 300);
             });
         }
         for (var i = 0; i < walls.length; i++) {
@@ -68,8 +115,7 @@ $(function() {
         }
         ball.x += ball.vx;
         ball.y += ball.vy;
-        ball.element.css('left', (ball.x * maze.getSquareWidth() + 30 - ball.width / 2.0) + 'px');
-        ball.element.css('top', (ball.y * maze.getSquareHeigth() + 30 - ball.height / 2.0) + 'px');
+        maze.setElementPosition(ball.element, ball.x, ball.y);
     }
     frame++;
   };
