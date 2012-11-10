@@ -78,8 +78,8 @@
               ball.element.css('height', (maze.getSquareHeigth() / 2) + 'px');
               $('body').append(ball.element);
             }
-            ball.vx = Math.sin(leftRightAngle) / 10.0;
-            ball.vy = Math.sin(frontBackAngle) / 10.0;
+            ball.vx = Math.sin(leftRightAngle) / 3.0;
+            ball.vy = Math.sin(frontBackAngle) / 3.0;
             ball.x += ball.vx;
             ball.y += ball.vy;
             ball.element.css('left', (ball.x * maze.getSquareWidth()) + 'px');
