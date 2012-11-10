@@ -66,9 +66,6 @@
           var walls = [
             {x: 0}
           ];
-          for (var i = 0; i < maze.element.width(); i += maze.getSquareWidth()) {
-            var start
-          }
           var frame = 0;
           function update() {
             $('#status').html('Frame: ' + frame + ', width= ' + maze.getSquareWidth());
@@ -78,10 +75,10 @@
               ball.element.css('height', (maze.getSquareHeigth() / 2) + 'px');
               $('body').append(ball.element);
             }
-            ball.vx += Math.sin(leftRightAngle)/30.0;
-            ball.vy += Math.sin(frontBackAngle)/30.0;
-            ball.vx *= 0.95;
-            ball.vy *= 0.95;
+            ball.vx += Math.sin(leftRightAngle)/20.0;
+            ball.vy += Math.sin(frontBackAngle)/20.0;
+            ball.vx *= 0.85;
+            ball.vy *= 0.85;
             ball.x += ball.vx;
             ball.y += ball.vy;
             ball.element.css('left', (ball.x * maze.getSquareWidth()) + 'px');
