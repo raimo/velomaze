@@ -26,6 +26,27 @@ function checkBallHole(ball, hole, dropped) {
         dropped(ballVector);
     }
 }
+function checkBallWall(ball, wall, collided) {
+    var ballVector = $V([ball.x, ball.y]);
+    var wallSegment = Line.Segment.create($V([wall.sx, wall.sy]), $V([wall.dx, wall.dy]));
+
+    var collisionPoint = wallSegment.pointClosestTo(holeVector);
+
+    if (collisionPoint.distanceFrom(holeVector) < ball.r) {
+        var differenceVector = collisionPoint.subtract(ball);
+        collided(ballVector);
+    }
+    //if (ball.vx != 0 || ball.vy != 0) {
+    //     var closestPoint = Line.Segment.create(
+    //       $V([ball.x,           ball.y          ]), 
+    //     if (closestPoint != null) {
+    //         ballVector = closestPoint;
+    //     }
+    //}
+    if (ballVector.distanceFrom(holeVector) < hole.r) {
+        dropped(ballVector);
+    }
+}
 
 $(function() {
   var frontBackAngle = 0;
@@ -81,21 +102,22 @@ $(function() {
     { x: 3.5, y: 6.5, r: 0.5 },
     { x: 5.5, y: 7.5, r: 0.5 },
     { x: 6.5, y: 5.5, r: 0.5 },
+    { x: 9.5, y: 9.5, r: 0.5, goal: true },
   ];
   for (var i = 0; i < holes.length; i++) {
       maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
   }
   var frame = 0;
   function update() {
-    $('#status').html('Frame: ' + frame);
     if (!ball.dropped) {
         if (!ball.element) {
           ball.element = maze.makeSpriteElement('<div class="ball" />', ball);
+          $('#status').html('You got a ball! take it to the right lower corner!');
         }
         ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
         ball.vy += thresholded(Math.sin(frontBackAngle)/5.0);
-        ball.vx = thresholded(ball.vx * 0.85);
-        ball.vy = thresholded(ball.vy * 0.85);
+        ball.vx = thresholded(ball.vx * 0.95);
+        ball.vy = thresholded(ball.vy * 0.95);
         for (var i = 0; i < holes.length; i++) {
             checkBallHole(ball, holes[i], function(position) {
                 ball.dropped = true;
@@ -110,6 +132,15 @@ $(function() {
                     left: holes[i].element.css('left'),
                     top: holes[i].element.css('top')
                 }, 1300);
+                if (holes[i].goal) {
+                    $.post('/successes', function (data) {
+                      $('#status').html('You did it!');
+                    });
+                } else {
+                    $.post('/failures', function (data) {
+                      $('#status').html('You failed my friend. :(');
+                    });
+                }
             });
         }
         for (var i = 0; i < walls.length; i++) {
