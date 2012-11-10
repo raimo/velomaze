@@ -78,15 +78,15 @@
               ball.element.css('height', (maze.getSquareHeigth() / 2) + 'px');
               $('body').append(ball.element);
             }
-            ball.vx = Math.sin(leftRightAngle) / 3.0;
-            ball.vy = Math.sin(frontBackAngle) / 3.0;
+            ball.vx += Math.sin(leftRightAngle)/30.0;
+            ball.vy += Math.sin(frontBackAngle)/30.0;
+            ball.vx *= 0.95;
+            ball.vy *= 0.95;
             ball.x += ball.vx;
             ball.y += ball.vy;
             ball.element.css('left', (ball.x * maze.getSquareWidth()) + 'px');
             ball.element.css('top', (ball.y * maze.getSquareHeigth()) + 'px');
             frame++;
-          };
-          function deviceOrientationHandler(leftRightAngle, frontBackAngle) {
           };
 
           if (window.DeviceOrientationEvent) {
