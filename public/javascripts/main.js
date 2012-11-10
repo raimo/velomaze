@@ -84,13 +84,6 @@ $(function() {
         return element;
     }
   };
-  var ball = {
-    x: 0.5,
-    y: 0.5,
-    vx: 0,
-    vy: 0,
-    r: 0.5
-  };
   var walls = [
     { sx: 0, sy: 0, dx: 10, dy: 0 }, // top edge
     { sx: 0, sy: 10, dx: 10, dy: 10 }, // bottom edge
@@ -108,53 +101,58 @@ $(function() {
       maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
   }
   var frame = 0;
+  var balls = [];
   function update() {
-    if (!ball.dropped) {
-        if (!ball.element) {
-          ball.element = maze.makeSpriteElement('<div class="ball" />', ball);
-          $('#status').html('You got a ball! take it to the right lower corner!');
+    for (var i = 0; i < balls.length; i++) {
+        var ball = balls[i];
+
+        if (!ball.dropped) {
+            if (!ball.element) {
+              ball.element = maze.makeSpriteElement('<div class="ball" />', ball);
+              $('#status').html('You got a ball! take it to the right lower corner!');
+            }
+            ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
+            ball.vy += thresholded(Math.sin(frontBackAngle)/5.0);
+            ball.vx = thresholded(ball.vx * 0.95);
+            ball.vy = thresholded(ball.vy * 0.95);
+            for (var i = 0; i < holes.length; i++) {
+                checkBallHole(ball, holes[i], function(position) {
+                    ball.dropped = true;
+                    ball.x = position.e(1);
+                    ball.y = position.e(2);
+                    ball.element.animate({
+                        width: '0',
+                        height: '0',
+                        'margin-top': ball.height/2 + 'px',
+                        'margin-left': ball.width/2 + 'px',
+                        opacity: 0,
+                        left: holes[i].element.css('left'),
+                        top: holes[i].element.css('top')
+                    }, 1300);
+                    if (holes[i].goal) {
+                        $.post('/successes', function (data) {
+                          $('#status').html('You did it!');
+                        });
+                    } else {
+                        $.post('/failures', function (data) {
+                          $('#status').html('You failed my friend. :(');
+                        });
+                    }
+                });
+            }
+            for (var i = 0; i < walls.length; i++) {
+                /*
+                checkBallWall(ball, walls[i], function(impact) {
+                    ball.vx += impact.e(1);
+                    ball.vy += impact.e(2);
+                });
+                */
+            }
+            ball.x += thresholded(ball.vx);
+            ball.y += thresholded(ball.vy);
+            maze.setElementPosition(ball.element, ball.x, ball.y);
         }
-        ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
-        ball.vy += thresholded(Math.sin(frontBackAngle)/5.0);
-        ball.vx = thresholded(ball.vx * 0.95);
-        ball.vy = thresholded(ball.vy * 0.95);
-        for (var i = 0; i < holes.length; i++) {
-            checkBallHole(ball, holes[i], function(position) {
-                ball.dropped = true;
-                ball.x = position.e(1);
-                ball.y = position.e(2);
-                ball.element.animate({
-                    width: '0',
-                    height: '0',
-                    'margin-top': ball.height/2 + 'px',
-                    'margin-left': ball.width/2 + 'px',
-                    opacity: 0,
-                    left: holes[i].element.css('left'),
-                    top: holes[i].element.css('top')
-                }, 1300);
-                if (holes[i].goal) {
-                    $.post('/successes', function (data) {
-                      $('#status').html('You did it!');
-                    });
-                } else {
-                    $.post('/failures', function (data) {
-                      $('#status').html('You failed my friend. :(');
-                    });
-                }
-            });
         }
-        for (var i = 0; i < walls.length; i++) {
-            /*
-            checkBallWall(ball, walls[i], function(impact) {
-                ball.vx += impact.e(1);
-                ball.vy += impact.e(2);
-            });
-            */
-        }
-        ball.x += thresholded(ball.vx);
-        ball.y += thresholded(ball.vy);
-        maze.setElementPosition(ball.element, ball.x, ball.y);
-    }
     frame++;
   };
 
@@ -175,7 +173,8 @@ $(function() {
   window.setInterval(function() { update(); }, 100);
   window.setInterval(function() {
     $.post('/gamestate', function (data) {
-        if (data) {
+        if (data.ball) {
+            balls.push(data.ball);
             console.log(data);
         }
     });
