@@ -52,6 +52,14 @@ function impactBallByWall(ball, wall) {
     }
 }
 
+//pasted from chads thing
+        function rotateLogo(distance) {
+  var diameter = $('#logo').width(),
+    perimeter = Math.PI * diameter;
+   var degree = distance*3600000000/perimeter;
+   $('#logo').css('transform','rotate('+degree+'deg)');
+ }
+
 $(function() {
   var socket = io.connect(document.location.origin);
 
@@ -137,7 +145,7 @@ $(function() {
 
         if (!ball.dropped) {
             if (!ball.element) {
-              ball.element = maze.makeSpriteElement('<div class="ball" />', ball);
+              ball.element = maze.makeSpriteElement('<div id="ball"><div id="logo"></div><div id="shadow"></div></div>​', ball);
               $('#status').html('You got a ball! take it to the right lower corner!');
             }
             ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
@@ -172,9 +180,17 @@ $(function() {
             }
             ball.x += thresholded(ball.vx);
             ball.y += thresholded(ball.vy);
+
+            var distance = Math.sqrt(
+              Math.pow(thresholded(ball.vx),2) + 
+              Math.pow(thresholded(ball.vy),2)
+            );
+
             maze.setElementPosition(ball.element, ball.x, ball.y);
+            rotateLogo(distance);
         }
         }
+
     frame++;
   };
 

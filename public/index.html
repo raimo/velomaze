@@ -16,12 +16,13 @@
         left: 30px;
         right: 30px;
         bottom: 30px;
-        background-image: url(/images/maze.png);
+        /*background-image: url(/images/maze.png);*/
         background-size: contain;
         background-repeat: no-repeat;
 
-        /*background-image: url(/images/bg.png);*/
-
+      
+        background-image: url(/images/bg.png);
+      
         padding: 0;
         border: 0;
       }
@@ -45,40 +46,36 @@
       }
 
       body {
-        background: #383838;
-      }
+    background: #383838;
+}
 
-    #ball {
-        position: absolute;
-        width: 81px;
-        height: 81px;
-    }
+#ball {
+    position: absolute;
+    width: 81px;
+    height: 81px;
+}
 
-    #ball img {
-        positiion: absolute;
-    }
+#ball img {
+    positiion: absolute;
+}
 
-    #logo {
-        width: 81px;
-        height: 81px;
-        background: url(http://f.cl.ly/items/3H1F3D2P1v3Y0H230M1B/ball-top.png);
-        background-size: cover;
-        opacity: 0.6;
-        float: left;
-    }
+#logo {
+    width: 79px;
+    height: 79px;
+    background: url(http://f.cl.ly/items/3H1F3D2P1v3Y0H230M1B/ball-top.png);
+    background-size: cover;
+    opacity: 0.4;
+    float: left;
+}
 
-    #shadow {
-        width: 81px;
-        height: 81px;
-        background: url(http://f.cl.ly/items/091u1T161d3N190f1C3A/ball-bottom.png);
-        background-size: cover;
-        opacity: 0.8;
-
-    }
-
-    .ball {
-
-    }
+#shadow {
+    width: 81px;
+    height: 81px;
+    background: url(http://f.cl.ly/items/091u1T161d3N190f1C3A/ball-bottom.png);
+    background-size: cover;
+    opacity: 0.9;
+    
+}
 ​
 
     </style>
@@ -91,42 +88,16 @@
       document.write('\u003Cscript type="text/javascript" src="javascripts/main.js?'+ forceLoad +'"\u003E\u003C/script\u003E');
     </script>
 
-<!-- Animation jQuery -->
-
-    <script type="text/javascript">
-    var diameter = $('#logo').width(),
-    perimeter = Math.PI * diameter;
-
-var goRight;
-function moveBall() {
-    goRight = !goRight; // change direction
-
-    $('#ball').animate({top: '100px', left: '300px'}, {
-           duration: 2000,
-           step: rotateLogo,
-           complete: moveBall
-       });
-}
-moveBall();
-
-function rotateLogo(distance) {
-   var degree = distance*36000/perimeter;
-   $('#logo').css('transform','rotate('+degree+'deg)');
-}
-
-    </script>
   </head>
 
   <body>
     <iframe src="http://nodeknockout.com/iframe/copypastel" frameborder=0 scrolling=no allowtransparency=true width=115 height=25> </iframe>
 
-    <div id="ball">
-      <div class="ball" id="logo"></div>
-      <div class="ball" id="shadow"></div>
-    </div>​
+    <div id="maze">
+    </div>
 
-    <div id="maze"> </div>
-    <div id="status"> </div>
+    <div id="status">
+    </div>
 
   </body>
 </html>
