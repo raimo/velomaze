@@ -21,26 +21,33 @@ var io = require('socket.io').listen(server);
 console.log('Listening at http://localhost:3000');
 
 var players = {};
-var games = {};
+var game = new Game();
 
 io.sockets.on("connection", function(socket){
   var player = new Player(socket);
   console.log(player.id + " has entered the Alley Maze!");
 
-  // Join game once we support multiplayer
+  game.addPlayer(player);
 
   socket.on("success", function(ball) {
-    // pass the ball forward
+    player.reset();
+
+    game.nextStage();
   });
 
   socket.on("failure", function(ball) {
     player.lose();
     if (!player.isAlive()) {
       socket.emit("game_over");
+      game.removePlayer(player);
     } else {
-      socket.emit("reset");
       // reset the ball
+      socket.emit("reset");
     }
+  });
+
+  socket.on("disconnect", function() {
+    game.removePlayer(player);
   });
 });
 
