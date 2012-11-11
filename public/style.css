@@ -51,8 +51,8 @@ div#container {
       #status {
 	    z-index: 400;
         position: absolute;
-	font-size: 400%;
-	top: 300px;
+	font-size: 200%;
+	top: 10px;
         height: 200px;
         left: 0;
         right: 0;

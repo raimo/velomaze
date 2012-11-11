@@ -51,9 +51,9 @@ function impactBallByWall(ball, wall) {
         }
     }
 }
-
+var socket
 $(function() {
-  var socket = io.connect(document.location.origin);
+   socket = io.connect(document.location.origin);
 
   var frontBackAngle = 0;
   var leftRightAngle = 0;
