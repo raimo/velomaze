@@ -15,8 +15,8 @@ div.container {
 	width: 567px;
 	height: 635px;
 	margin: 0 auto;
-	background: url(../public/images/overlay-bg.png) no-repeat;
-	background: cover;
+	background: url(../images/overlay-bg.png) no-repeat;
+	
 }
 
 div#overlay {
@@ -37,10 +37,10 @@ li {
 
 div.title {
 	font-family: arial, sans-serif;
-	font-size: 1.2em;
+	font-size: 1.5em;
 	color: white;
 	text-shadow: 2px 0 3px #292929;
-	margin: 5px 0 5px 0;
+	margin: 5px 0 15px 0;
 }
 
 div#instructions {
@@ -52,13 +52,21 @@ div#instructions {
 
 div.text {
 	font-family: arial, sans-serif;
-	font-size: .8em;
+	font-size: 1em;
 	color: white;
 	text-shadow: 2px 0 3px #292929;
 	margin: 10px 0 0 0;
+	line-height: 20px;
 
 }
 
 div.button {
+	width: 245px;
+	height: 70px;
+	margin: 70px auto;
+	/*background: url(../images/button-ready.png) no-repeat;*/
+}
 
+a:hover {
+	cursor: pointer, cursor, hand;
 }
