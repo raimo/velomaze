@@ -2,6 +2,16 @@
       body {
         /* background-image: url(/images/bg.png); */
       }
+
+div#wrapper {
+    width: 100%;
+}
+
+div#container {
+    max-width: 600px
+}
+
+
       #maze {
         position: absolute;
         top: 30px;
