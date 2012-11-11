@@ -19,9 +19,9 @@
         background-image: url(/images/maze.png);
         background-size: contain;
         background-repeat: no-repeat;
-      
+
         /*background-image: url(/images/bg.png);*/
-      
+
         padding: 0;
         border: 0;
       }
@@ -73,11 +73,11 @@
         background: url(http://f.cl.ly/items/091u1T161d3N190f1C3A/ball-bottom.png);
         background-size: cover;
         opacity: 0.8;
-        
+
     }
 
     .ball {
-        
+
     }
 ​
 
@@ -89,14 +89,6 @@
     <script type="text/javascript">
       var forceLoad = window.location.href.match(/^http:\/\/(localhost|127.0.0.1)(:\d*)?\//) ? new Date().getTime() : 'PACKAGE_VERSION';
       document.write('\u003Cscript type="text/javascript" src="javascripts/main.js?'+ forceLoad +'"\u003E\u003C/script\u003E');
-
-    $(document).ready(function() {
-      var socket = io.connect(document.location.origin);
-
-      socket.on("connect", function() {
-        // Any setup on connect? Perhaps display the ball?
-      });
-    });
     </script>
 
 <!-- Animation jQuery -->
@@ -108,7 +100,7 @@
 var goRight;
 function moveBall() {
     goRight = !goRight; // change direction
-    
+
     $('#ball').animate({top: '100px', left: '300px'}, {
            duration: 2000,
            step: rotateLogo,
@@ -126,20 +118,15 @@ function rotateLogo(distance) {
   </head>
 
   <body>
-
-    <iframe src="http://nodeknockout.com/iframe/copypastel" frameborder=0 scrolling=no allowtransparency=true width=115 height=25>
-    </iframe>
+    <iframe src="http://nodeknockout.com/iframe/copypastel" frameborder=0 scrolling=no allowtransparency=true width=115 height=25> </iframe>
 
     <div id="ball">
       <div class="ball" id="logo"></div>
       <div class="ball" id="shadow"></div>
     </div>​
 
-    <div id="maze">
-    </div>
-
-    <div id="status">
-    </div>
+    <div id="maze"> </div>
+    <div id="status"> </div>
 
   </body>
 </html>

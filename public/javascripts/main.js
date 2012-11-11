@@ -53,6 +53,8 @@ function impactBallByWall(ball, wall) {
 }
 
 $(function() {
+  var socket = io.connect(document.location.origin);
+
   var frontBackAngle = 0;
   var leftRightAngle = 0;
   maze = {
@@ -88,6 +90,21 @@ $(function() {
         return element;
     }
   };
+
+  window.onresize = function() {
+    // recalculate ball and hole sizes
+    var holeSprites = $("img[src='/images/hole.png']");
+    for(var i = 0; i < holeSprites.length; i++) {
+      var hole = $(holeSprites[i]);
+      maze.setElementPosition(hole, holes[i].x, holes[i].y);
+      hole.css("width", maze.getSquareWidth());
+      hole.css("height", maze.getSquareHeigth());
+    };
+
+    var ball = $("div.ball");
+    ball.css("width", maze.getSquareWidth());
+    ball.css("height", maze.getSquareHeigth());
+  }
   var walls = [
     { sx: 0, sy: 0, dx: 10, dy: 0 }, // top edge
     { sx: 0, sy: 10, dx: 10, dy: 10 }, // bottom edge
@@ -142,13 +159,11 @@ $(function() {
                         top: holes[i].element.css('top')
                     }, 1300);
                     if (holes[i].goal) {
-                        $.post('/successes', function (data) {
-                          $('#status').html('You did it!');
-                        });
+                        socket.emit("success");
+                        // display success message, etc.
                     } else {
-                        $.post('/failures', function (data) {
-                          $('#status').html('You failed my friend. :(');
-                        });
+                        socket.emit("failure");
+                        // display failure raptor
                     }
                 });
             }
@@ -177,7 +192,6 @@ $(function() {
     $('#status').html('Your device does not support orientation reading. Please use Android 4.0 or later, iOS (MBP laptop is fine) or similar platform.');
   }
 
-  var socket = io.connect(document.location.origin);
 
   socket.on("connect", function() {
     var ball = {
