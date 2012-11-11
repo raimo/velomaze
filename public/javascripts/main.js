@@ -276,7 +276,10 @@ $(function() {
   });
 
   socket.on("next", function() {
-    setStatus("Seems like Your fellow completed a maze! The ball is all yours now.");
+    if (!this.beginning_gone) {
+        setStatus("Seems like Your fellow completed a maze! The ball is all yours now.");
+    }
+    this.beginning_gone = true;
     balls.push(makeBall());
   });
 
