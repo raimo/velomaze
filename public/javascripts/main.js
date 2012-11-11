@@ -90,6 +90,10 @@ $(function() {
         }
         element.css('width', sprite.width + 'px');
         element.css('height', sprite.height + 'px');
+        element.find('div').each(function () {
+         $(this).css('width', sprite.width + 'px');
+         $(this).css('height', sprite.height + 'px');
+        });
     },
     makeSpriteElement: function(jqstr, sprite) {
         var element = $(jqstr);
