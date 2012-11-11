@@ -48,11 +48,18 @@ div#container {
       #status {
         border: 1px solid red;
         position: absolute;
-        height: 20px;
+        height: 200px;
         left: 30px;
         right: 30px;
         bottom: 0;
         padding: 0;
+      }
+      .location {
+	      color: white;
+	      background-color: blue;
+      }
+      .easter-egg {
+	      display: none;
       }
       .ball {
         position: absolute;

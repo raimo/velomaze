@@ -94,6 +94,7 @@ $(function() {
          $(this).css('width', sprite.width + 'px');
          $(this).css('height', sprite.height + 'px');
         });
+        element.find('.location').html('('+parseInt(sprite.x*10)/10.0+','+parseInt(sprite.y*10)/10.0+')');
     },
     makeSpriteElement: function(jqstr, sprite) {
         var element = $(jqstr);
@@ -173,7 +174,6 @@ $(function() {
       $('.easter-egg').toggle();
     }
   });
-  $('.easter-egg').toggle();
   function update() {
     for (var i = 0; i < balls.length; i++) {
         var ball = balls[i];
