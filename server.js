@@ -27,14 +27,20 @@ io.sockets.on("connection", function(socket){
   var player = new Player(socket);
   console.log(player.id + " has entered the Alley Maze!");
 
-  // Join game
+  // Join game once we support multiplayer
 
   socket.on("success", function(ball) {
     // pass the ball forward
   });
 
   socket.on("failure", function(ball) {
-    // reset the ball
+    player.lose();
+    if (!player.isAlive()) {
+      socket.emit("game_over");
+    } else {
+      socket.emit("reset");
+      // reset the ball
+    }
   });
 });
 

@@ -177,6 +177,36 @@ $(function() {
     $('#status').html('Your device does not support orientation reading. Please use Android 4.0 or later, iOS (MBP laptop is fine) or similar platform.');
   }
 
+  var socket = io.connect(document.location.origin);
+
+  socket.on("connect", function() {
+    var ball = {
+      x: 0.5,
+      y: 5,
+      vx: 0,
+      vy: 0,
+      r: 0.5,
+    };
+
+    balls.push(ball);
+  });
+
+  socket.on("reset", function() {
+    var ball = {
+      x: 0.5,
+      y: 5,
+      vx: 0,
+      vy: 0,
+      r: 0.5,
+    };
+
+    balls.push(ball);
+  });
+
+  socket.on("game_over", function() {
+    alert("Game over! Velociraptor is sad.");
+  });
+
   window.setInterval(function() { update(); }, 100);
 /*  window.setInterval(function() {
     $.post('/gamestate', function (data) {
