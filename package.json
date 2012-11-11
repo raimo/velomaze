@@ -1,6 +1,6 @@
 {
   "name": "nko3-copypastel",
-  "version": "0.0.0-26",
+  "version": "0.0.0-27",
   "description": "copypastel",
   "main": "server.js",
   "scripts": {
