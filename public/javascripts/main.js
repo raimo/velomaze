@@ -52,14 +52,6 @@ function impactBallByWall(ball, wall) {
     }
 }
 
-//pasted from chads thing
-        function rotateLogo(distance) {
-  var diameter = $('#logo').width(),
-    perimeter = Math.PI * diameter;
-   var degree = distance*3600000000/perimeter;
-   $('#logo').css('transform','rotate('+degree+'deg)');
- }
-
 $(function() {
   var socket = io.connect(document.location.origin);
 
@@ -253,7 +245,6 @@ $(function() {
             );
 
             maze.setElementPosition(ball.element, ball);
-            rotateLogo(distance);
         }
         }
 
