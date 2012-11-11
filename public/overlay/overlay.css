@@ -15,8 +15,8 @@ div.container {
 	width: 567px;
 	height: 635px;
 	margin: 0 auto;
-	background: url(../public/images/overlay-bg.png) no-repeat;
-	background: cover;
+	background: url(../images/overlay-bg.png) no-repeat;
+	
 }
 
 div#overlay {
@@ -60,5 +60,5 @@ div.text {
 }
 
 div.button {
-
+	background: url(../images/button-ready.png);
 }
