@@ -204,7 +204,6 @@ $(function() {
                     ball.dropped = true;
                     ball.x = position.e(1);
                     ball.y = position.e(2);
-                    setStatus('Dropped it!');
                     ball.element.animate({
                         /*
                         'margin-top': ball.height/2 + 'px',
@@ -215,9 +214,12 @@ $(function() {
                         top: holes[i].element.css('top')
                     }, 700);
                     if (holes[i].goal) {
+                        setStatus('YEEEEEEEEEEEAAH!');
+                        setStatus('Velociraptor loves you');
                         socket.emit("success");
                         // display success message, etc.
                     } else {
+                        setStatus('Oh no! Dropped it!');
                         socket.emit("failure");
                         // display failure raptor
                     }
@@ -282,6 +284,7 @@ $(function() {
   });
 
   socket.on("next", function() {
+    setStatus("Seems like Your fellow completed a maze! The ball is all yours now.");
     balls.push(makeBall());
   });
 
