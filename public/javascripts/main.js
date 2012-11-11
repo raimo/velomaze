@@ -75,7 +75,11 @@ $(function() {
     getSquareHeigth: function() {
         return Math.min(maze.element.width(), maze.element.height()) / maze.rows;
     },
-    setElementPosition: function(element, x, y) {
+    setElementPosition: function(element, sprite) {
+        sprite.width = (maze.getSquareWidth() * sprite.r * 2);
+        sprite.height = (maze.getSquareHeigth() * sprite.r * 2);
+        var x = sprite.x;
+        var y = sprite.y;
         var newLeft = (x * maze.getSquareWidth()  - element.width() / 2.0);
         var newTop = (y * maze.getSquareHeigth()  - element.height() / 2.0);
         if (thresholded(element.css('left') - newLeft, 5) !== 0) {
@@ -84,18 +88,16 @@ $(function() {
         if (thresholded(element.css('top') - newTop, 5) !== 0) {
             element.css('top', parseInt(newTop) + 'px');
         }
+        element.css('width', sprite.width + 'px');
+        element.css('height', sprite.height + 'px');
     },
     makeSpriteElement: function(jqstr, sprite) {
         var element = $(jqstr);
         sprite.element = element;
-        sprite.width = (maze.getSquareWidth() * sprite.r * 2);
-        sprite.height = (maze.getSquareHeigth() * sprite.r * 2);
         element.css('position', 'absolute');
-        element.css('width', sprite.width + 'px');
-        element.css('height', sprite.height + 'px');
         //element.append('<span class="location easter-egg"></span>');
-        maze.setElementPosition(element, sprite.x, sprite.y);
         maze.element.append(element);
+        maze.setElementPosition(element, sprite);
         return element;
     }
   };
@@ -103,16 +105,14 @@ $(function() {
   window.onresize = function() {
     // recalculate ball and hole sizes
     var holeSprites = $("img[src='/images/hole.png']");
-    for(var i = 0; i < holeSprites.length; i++) {
-      var hole = $(holeSprites[i]);
-      maze.setElementPosition(hole, holes[i].x, holes[i].y);
-      hole.css("width", maze.getSquareWidth());
-      hole.css("height", maze.getSquareHeigth());
+    for(var i = 0; i < holes.length; i++) {
+      var hole = holes[i];
+      maze.setElementPosition(hole.element, hole);
     };
-
-    var ball = $("div.ball");
-    ball.css("width", maze.getSquareWidth());
-    ball.css("height", maze.getSquareHeigth());
+    for(var i = 0; i < balls.length; i++) {
+      var ball = balls[i];
+      maze.setElementPosition(ball.element, ball);
+    };
   }
   var walls = [
     { sx: 0, sy: 0, dx: 10, dy: 0 }, // top edge
@@ -159,6 +159,7 @@ $(function() {
   ];
   for (var i = 0; i < holes.length; i++) {
       maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
+      maze.setElementPosition(holes[i].element, holes[i]);
   }
   var frame = 0;
   var balls = [];
@@ -175,7 +176,7 @@ $(function() {
 
         if (!ball.dropped) {
             if (!ball.element) {
-              ball.element = maze.makeSpriteElement('<div id="ball"><div id="logo"></div><div id="shadow"></div></div>​', ball);
+              maze.makeSpriteElement('<div id="ball"><div id="logo"></div><div id="shadow"></div></div>​', ball);
 
               $('#status').html('You got a ball! take it to the right lower corner!');
             }
@@ -233,7 +234,7 @@ $(function() {
               Math.pow(thresholded(ball.vy),2)
             );
 
-            maze.setElementPosition(ball.element, ball.x, ball.y);
+            maze.setElementPosition(ball.element, ball);
             rotateLogo(distance);
         }
         }
