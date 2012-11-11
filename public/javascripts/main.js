@@ -212,7 +212,7 @@ $(function() {
   socket.on("connect", function() {
     var ball = {
       x: 0.5,
-      y: 5,
+      y: 0.5,
       vx: 0,
       vy: 0,
       r: 0.5,
@@ -224,7 +224,7 @@ $(function() {
   socket.on("reset", function() {
     var ball = {
       x: 0.5,
-      y: 5,
+      y: 0.5,
       vx: 0,
       vy: 0,
       r: 0.5,
