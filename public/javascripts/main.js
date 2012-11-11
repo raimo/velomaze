@@ -1,5 +1,6 @@
 var maze;
 var socket;
+var past_overlay = false;
 
 function thresholded(n, threshold) {
     if (!thresholded) {
@@ -276,16 +277,24 @@ $(function() {
   });
 
   socket.on("next", function() {
-    if (!this.beginning_gone) {
+    if (past_overlay) {
+      if (!this.beginning_gone) {
         setStatus("Seems like Your fellow completed a maze! The ball is all yours now.");
+      }
+      this.beginning_gone = true;
+      balls.push(makeBall());
     }
-    this.beginning_gone = true;
-    balls.push(makeBall());
   });
 
   socket.on("game_over", function() {
     setStatus("Game over!",true);
     setStatus("Velociraptor is sad.");
+  });
+
+  $("div.overlay-wrapper").on("click", function() {
+    $("div.overlay-wrapper").css("display", "none");
+    past_overlay = true;
+    socket.emit("ready");
   });
 
   window.setInterval(function() { update(); }, 100);

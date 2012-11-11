@@ -46,6 +46,10 @@ io.sockets.on("connection", function(socket){
     }
   });
 
+  socket.on("ready", function() {
+    socket.emit("next");
+  });
+
   socket.on("disconnect", function() {
     game.removePlayer(player);
   });
