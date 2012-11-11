@@ -106,6 +106,8 @@ $(function() {
         return element;
     }
   };
+  $('#maze').css('width', maze.cols * maze.getSquareWidth());
+  $('#maze').css('height', maze.rows * maze.getSquareHeigth());
 
   window.onresize = function() {
     // recalculate ball and hole sizes
@@ -174,6 +176,17 @@ $(function() {
       $('.easter-egg').toggle();
     }
   });
+  var setStatus = function(text, forever) {
+      var span = $('<span class="notification">'+text+'</span>');
+      span = span.appendTo('#status');
+      if (!forever) {
+          span.animate({ opacity: 0 }, 4000, null, function() {
+              span.remove();
+          });
+      }
+  };
+
+  setStatus('Take balls to the lower right corner!');
   function update() {
     for (var i = 0; i < balls.length; i++) {
         var ball = balls[i];
@@ -181,8 +194,6 @@ $(function() {
         if (!ball.dropped) {
             if (!ball.element) {
               maze.makeSpriteElement('<div id="ball"><div id="logo"></div><div id="shadow"></div></div>​', ball);
-
-              $('#status').html('You got a ball! take it to the right lower corner!');
             }
             ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
             ball.vy += thresholded(Math.sin(frontBackAngle)/5.0);
@@ -193,6 +204,7 @@ $(function() {
                     ball.dropped = true;
                     ball.x = position.e(1);
                     ball.y = position.e(2);
+                    setStatus('Dropped it!');
                     ball.element.animate({
                         /*
                         'margin-top': ball.height/2 + 'px',
@@ -257,7 +269,7 @@ $(function() {
         frontBackAngle = eventData.y * Math.PI/2;
     }, false);
   } else {
-    $('#status').html('Your device does not support orientation reading. Please use Android 4.0 or later, iOS (MBP laptop is fine) or similar platform.');
+    setStatus('Your device does not support orientation reading. Please use Android 4.0 or later, iOS (MBP laptop is fine) or similar platform.');
   }
 
   var makeBall = function () {
@@ -274,7 +286,8 @@ $(function() {
   });
 
   socket.on("game_over", function() {
-    alert("Game over! Velociraptor is sad.");
+    setStatus("Game over!",true);
+    setStatus("Velociraptor is sad.");
   });
 
   window.setInterval(function() { update(); }, 100);

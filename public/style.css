@@ -15,6 +15,9 @@ div#container {
     z-index: 300;
 }
 
+.notification {
+  display: block;
+}
 
       #maze {
     z-index: 200;
@@ -46,13 +49,18 @@ div#container {
         background-image: url(/images/walls.png);
       }
       #status {
-        border: 1px solid red;
+	    z-index: 400;
         position: absolute;
+	font-size: 400%;
+	top: 300px;
         height: 200px;
-        left: 30px;
-        right: 30px;
+        left: 0;
+        right: 0;
         bottom: 0;
-        padding: 0;
+        padding: 50px;
+	color: white;
+	text-shadow: #6374AB 5px -0px 2px;
+	font-family: sans-serif;
       }
       .location {
 	      color: white;
