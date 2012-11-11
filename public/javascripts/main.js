@@ -93,6 +93,7 @@ $(function() {
         element.css('position', 'absolute');
         element.css('width', sprite.width + 'px');
         element.css('height', sprite.height + 'px');
+        //element.append('<span class="location easter-egg"></span>');
         maze.setElementPosition(element, sprite.x, sprite.y);
         maze.element.append(element);
         return element;
@@ -129,12 +130,31 @@ $(function() {
     { sx: 8, sy: 2, dx: 8, dy: 10 }
   ];
   var holes = [
+    { x: 0.7, y: 3.4, r: 0.5 },
+    { x: 0.7, y: 5.8, r: 0.6 },
+
+    { x: 1.45, y: 8, r: 0.5 },
+    { x: 1.7, y: 2.4, r: 0.4 },
+    { x: 3.6, y: 9.4, r: 0.4 },
+
+    { x: 3.3, y: 4.2, r: 0.5 },
     { x: 3.35, y: 1.35, r: 0.5 },
     { x: 3.35, y: 6.35, r: 0.5 },
+    { x: 2.75, y: 8.05, r: 0.43 },
+
+    { x: 5.3, y: 1.2, r: 0.5 },
+    { x: 5.3, y: 4.2, r: 0.5 },
     { x: 5.35, y: 7.55, r: 0.5 },
+
     { x: 6.65, y: 5.35, r: 0.5 },
+    { x: 6.85, y: 1.05, r: 0.7 },
+
     { x: 7.45, y: 3.35, r: 0.5 },
     { x: 7.45, y: 7.35, r: 0.5 },
+
+    { x: 8.75, y: 3.35, r: 0.55 },
+    { x: 9.35, y: 1.55, r: 0.55 },
+    { x: 9.35, y: 5.35, r: 0.55 },
     { x: 9.35, y: 9.35, r: 0.5, goal: true },
   ];
   for (var i = 0; i < holes.length; i++) {
@@ -142,6 +162,13 @@ $(function() {
   }
   var frame = 0;
   var balls = [];
+  $(window).keypress(function (e){
+    if (e.which == 13) {
+      e.preventDefault();
+      $('.easter-egg').toggle();
+    }
+  });
+  $('.easter-egg').toggle();
   function update() {
     for (var i = 0; i < balls.length; i++) {
         var ball = balls[i];
@@ -149,6 +176,7 @@ $(function() {
         if (!ball.dropped) {
             if (!ball.element) {
               ball.element = maze.makeSpriteElement('<div id="ball"><div id="logo"></div><div id="shadow"></div></div>​', ball);
+
               $('#status').html('You got a ball! take it to the right lower corner!');
             }
             ball.vx += thresholded(Math.sin(leftRightAngle)/5.0);
@@ -183,6 +211,22 @@ $(function() {
             }
             ball.x += thresholded(ball.vx);
             ball.y += thresholded(ball.vy);
+            if (ball.x < ball.r) {
+                ball.x = ball.r;
+                ball.vx = 0.01;
+            }
+            if (ball.y < ball.r) {
+                ball.y = ball.r;
+                ball.vy = 0.01;
+            }
+            if (ball.y > 10-ball.r) {
+                ball.y = 10-ball.r;
+                ball.vy = -0.01;
+            }
+            if (ball.x > 10-ball.r) {
+                ball.x = 10-ball.r;
+                ball.vx = -0.01;
+            }
 
             var distance = Math.sqrt(
               Math.pow(thresholded(ball.vx),2) + 

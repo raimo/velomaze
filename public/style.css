@@ -11,9 +11,13 @@ div#wrapper {
 div#container {
     max-width: 600px
 }
+#walls {
+    z-index: 300;
+}
 
 
       #maze {
+    z-index: 200;
         position: absolute;
         top: 30px;
         left: 30px;
@@ -28,6 +32,18 @@ div#container {
       
         padding: 0;
         border: 0;
+      }
+      #walls {
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        padding: 0;
+        border: 0;
+        background-image: url(/images/walls.png);
       }
       #status {
         border: 1px solid red;
