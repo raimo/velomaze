@@ -92,7 +92,15 @@ $(function() {
     { sx: 0, sy: 0, dx: 10, dy: 0 }, // top edge
     { sx: 0, sy: 10, dx: 10, dy: 10 }, // bottom edge
     { sx: 10, sy: 0, dx: 10, dy: 10 }, // right edge
-    { sx: 0, sy: 0, dx: 0, dy: 10 } // left edge
+    { sx: 0, sy: 0, dx: 0, dy: 10 }, // left edge
+    // Custom edges
+    { sx: 0, sy: 5, dx: 4, dy: 5 },
+    { sx: 4, sy: 5, dx: 4, dy: 2 },
+    { sx: 2, sy: 3, dx: 2, dy: 0 },
+    { sx: 2, sy: 9, dx: 2, dy: 7 },
+    { sx: 2, sy: 7, dx: 6, dy: 7 },
+    { sx: 6, sy: 0, dx: 6, dy: 9 },
+    { sx: 8, sy: 2, dx: 8, dy: 10 }
   ];
   var holes = [
     { x: 3.5, y: 1.5, r: 0.5 },
