@@ -4,14 +4,14 @@ body {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#555555), color-stop(100%,#2e2e2e));
 }
 
-div.wrapper {
+div.overlay-wrapper {
 	width: 100%;
 	/*background: url(../public/images/overlay-bg.png) no-repeat;*/
 	background: cover;
 
 }
 
-div.container {
+div.overlay-container {
 	width: 567px;
 	height: 635px;
 	margin: 0 auto;
@@ -35,7 +35,7 @@ li {
 	margin: 25px 0;
 }
 
-div.title {
+div.overlay-title {
 	font-family: arial, sans-serif;
 	font-size: 1.5em;
 	color: white;
@@ -43,14 +43,14 @@ div.title {
 	margin: 5px 0 15px 0;
 }
 
-div#instructions {
+div#overlay-instructions {
 	width: 130px;
 	margin: 0 auto;
 	font-size: 1.5em;
 	
 }
 
-div.text {
+div.overlay-text {
 	font-family: arial, sans-serif;
 	font-size: 1em;
 	color: white;
@@ -60,7 +60,7 @@ div.text {
 
 }
 
-div.button {
+div.overlay-button {
 	width: 245px;
 	height: 70px;
 	margin: 70px auto;
