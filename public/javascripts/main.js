@@ -229,7 +229,7 @@ $(function() {
             }
 
             var distance = Math.sqrt(
-              Math.pow(thresholded(ball.vx),2) + 
+              Math.pow(thresholded(ball.vx),2) +
               Math.pow(thresholded(ball.vy),2)
             );
 
@@ -260,11 +260,11 @@ $(function() {
     return ball;
   };
 
-  socket.on("connect", function() {
+  socket.on("reset", function() {
     balls.push(makeBall());
   });
 
-  socket.on("reset", function() {
+  socket.on("next", function() {
     balls.push(makeBall());
   });
 
