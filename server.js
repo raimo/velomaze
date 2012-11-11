@@ -1,55 +1,44 @@
 var express = require('express');
+var uuid = require('node-uuid');
 var app = express();
 var server;
 var playerIndex = 1;
 var ballIndex = 1;
 
+require('lib/game');
+
+console.log(new Game());
+
 app.configure(function() {
-     app.use(express.methodOverride());
-     app.use(express.static(__dirname + '/public'));
-     app.use(express.cookieParser()); 
-     app.use(express.session({ secret: 'y7SD56DGs68sdy89gsdg9ysdg' }));
+  app.use(express.methodOverride());
+  app.use(express.static(__dirname + '/public'));
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'y7SD56DGs68sdy89gsdg9ysdg' }));
 });
 
 server = app.listen(3000);
+var io = require('socket.io').listen(server);
 console.log('Listening at http://localhost:3000');
 
 var players = {};
-var current_user = function(req) {
-    
-    console.log(req.cookies["connect.sid"])
-    if (!players[req.cookies["connect.sid"]]) {
-        console.log('user id ', playerIndex, ' joined the game');
-        var player = {
-            pending: {}, // to be put in player's maze
-            finished: {} // finished in player's maze
-        };
-        player.pending[ballIndex += 2] = { x: 0.5, y: 5, vx: 0, vy: 0, r: 0.5 };
+var games = {};
 
-        players[req.cookies["connect.sid"]] = player;
-    }
-    return players[req.cookies["connect.sid"]];
-};
+io.sockets.on("connection", function(socket){
+  var player = new Player(socket);
+  console.log(player.id + " has entered the Alley Maze!");
+
+  // Join game
+
+  socket.on("success", function(ball) {
+    // pass the ball forward
+  });
+
+  socket.on("failure", function(ball) {
+    // reset the ball
+  });
+});
+
 var transition = {};
-for (var playerId in players) {
-    if (players.hasOwnProperty(playerId)) {
-        var player = players[playerId];
-        for (var i in transition) {
-            if (transition.hasOwnProperty(i)) {
-                player.pending[i] = transition[i];
-                delete transition[i];
-            }
-        }
-        if (player.finished) {
-            for (var i in player.finished) {
-                if (player.finished.hasOwnProperty(i)) {
-                    transition[i] = player.finished[i];
-                    delete player.finished[i];
-                }
-            }
-        }
-    }
-}
 
 app.post('/gamestate', function(req, res) {
     var player = current_user(req);
@@ -64,16 +53,6 @@ app.post('/gamestate', function(req, res) {
         }
     }
     return res.send({ ball: ball });
-});
-
-app.post('/successes', function(req, res) {
-    console.log('BALL ', req.query.id, ' GOT FORWARD');
-    return res.send();
-});
-
-app.post('/failures', function(req, res) {
-    console.log('BALL ', req.query.id, ' WAS DROPPED!');
-    return res.send();
 });
 
 try {

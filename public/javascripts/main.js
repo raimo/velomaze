@@ -16,7 +16,7 @@ function checkBallHole(ball, hole, dropped) {
     var ballVector = $V([ball.x, ball.y]);
     //if (ball.vx != 0 || ball.vy != 0) {
     //     var closestPoint = Line.Segment.create(
-    //       $V([ball.x,           ball.y          ]), 
+    //       $V([ball.x,           ball.y          ]),
     //       $V([ball.x + ball.vx, ball.y + ball.vy])).pointClosestTo(holeVector);
     //     if (closestPoint != null) {
     //         ballVector = closestPoint;
@@ -178,7 +178,7 @@ $(function() {
   }
 
   window.setInterval(function() { update(); }, 100);
-  window.setInterval(function() {
+/*  window.setInterval(function() {
     $.post('/gamestate', function (data) {
         if (data.ball) {
             balls.push(data.ball);
@@ -186,4 +186,5 @@ $(function() {
         }
     });
   }, 1000);
+  */
 });
