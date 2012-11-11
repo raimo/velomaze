@@ -98,6 +98,31 @@
       });
     });
     </script>
+
+<!-- Animation jQuery -->
+
+    <script type="text/javascript">
+    var diameter = $('#logo').width(),
+    perimeter = Math.PI * diameter;
+
+var goRight;
+function moveBall() {
+    goRight = !goRight; // change direction
+    
+    $('#ball').animate({top: '100px', left: '300px'}, {
+           duration: 2000,
+           step: rotateLogo,
+           complete: moveBall
+       });
+}
+moveBall();
+
+function rotateLogo(distance) {
+   var degree = distance*36000/perimeter;
+   $('#logo').css('transform','rotate('+degree+'deg)');
+}
+
+    </script>
   </head>
 
   <body>
