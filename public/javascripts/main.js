@@ -26,25 +26,29 @@ function checkBallHole(ball, hole, dropped) {
         dropped(ballVector);
     }
 }
-function checkBallWall(ball, wall, collided) {
+function impactBallByWall(ball, wall) {
     var ballVector = $V([ball.x, ball.y]);
     var wallSegment = Line.Segment.create($V([wall.sx, wall.sy]), $V([wall.dx, wall.dy]));
 
-    var collisionPoint = wallSegment.pointClosestTo(holeVector);
+    var collisionPoint = wallSegment.pointClosestTo(ballVector).to2D();
+    var dist = collisionPoint.distanceFrom(ballVector);
 
-    if (collisionPoint.distanceFrom(holeVector) < ball.r) {
-        var differenceVector = collisionPoint.subtract(ball);
-        collided(ballVector);
-    }
-    //if (ball.vx != 0 || ball.vy != 0) {
-    //     var closestPoint = Line.Segment.create(
-    //       $V([ball.x,           ball.y          ]), 
-    //     if (closestPoint != null) {
-    //         ballVector = closestPoint;
-    //     }
-    //}
-    if (ballVector.distanceFrom(holeVector) < hole.r) {
-        dropped(ballVector);
+    if (dist < ball.r) {
+        var inverseMassSum = 1/100.0;
+        var differenceVector = collisionPoint.subtract(ballVector);
+        var collisionNormal = differenceVector.multiply(1.0/dist);
+        var penetrationDistance = ball.r-dist;
+        var separationVector = collisionNormal.multiply(penetrationDistance/(inverseMassSum));
+        var collisionVelocity = $V([ball.vx, ball.vy]);
+
+        var impactSpeed = collisionVelocity.dot(collisionNormal);
+
+        if (impactSpeed >= 0) {
+            var impulse = collisionNormal.multiply((-1.4)*impactSpeed/(inverseMassSum));
+            var newBallVelocity = $V([ball.vx, ball.vy]).add(impulse.multiply(inverseMassSum));
+            ball.vx = newBallVelocity.e(1);
+            ball.vy = newBallVelocity.e(2);
+        }
     }
 }
 
@@ -141,12 +145,7 @@ $(function() {
                 });
             }
             for (var i = 0; i < walls.length; i++) {
-                /*
-                checkBallWall(ball, walls[i], function(impact) {
-                    ball.vx += impact.e(1);
-                    ball.vy += impact.e(2);
-                });
-                */
+                impactBallByWall(ball, walls[i]);
             }
             ball.x += thresholded(ball.vx);
             ball.y += thresholded(ball.vy);
