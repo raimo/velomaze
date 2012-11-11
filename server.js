@@ -5,7 +5,7 @@ var server;
 var playerIndex = 1;
 var ballIndex = 1;
 
-require('lib/game');
+require('./lib/game');
 
 console.log(new Game());
 
