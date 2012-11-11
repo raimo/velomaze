@@ -1,4 +1,5 @@
 var maze;
+var socket;
 
 function thresholded(n, threshold) {
     if (!thresholded) {
@@ -53,7 +54,7 @@ function impactBallByWall(ball, wall) {
 }
 var socket
 $(function() {
-   socket = io.connect(document.location.origin);
+  socket = io.connect(document.location.origin);
 
   var frontBackAngle = 0;
   var leftRightAngle = 0;

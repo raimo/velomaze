@@ -32,7 +32,7 @@ io.sockets.on("connection", function(socket){
   socket.on("success", function(ball) {
     player.reset();
 
-    game.nextStage();
+    game.nextStage(player);
   });
 
   socket.on("failure", function(ball) {
