@@ -99,7 +99,7 @@ $(function() {
         var element = $(jqstr);
         sprite.element = element;
         element.css('position', 'absolute');
-        //element.append('<span class="location easter-egg"></span>');
+        element.append('<span class="location easter-egg"></span>');
         maze.element.append(element);
         maze.setElementPosition(element, sprite);
         return element;
