@@ -121,6 +121,7 @@ $(function() {
     // Custom edges
     { sx: 0, sy: 5, dx: 4, dy: 5 },
     { sx: 4, sy: 5, dx: 4, dy: 2 },
+    { sx: 4, sy: 8, dx: 4, dy: 10 },
     { sx: 2, sy: 3, dx: 2, dy: 0 },
     { sx: 2, sy: 9, dx: 2, dy: 7 },
     { sx: 2, sy: 7, dx: 6, dy: 7 },
@@ -128,11 +129,13 @@ $(function() {
     { sx: 8, sy: 2, dx: 8, dy: 10 }
   ];
   var holes = [
-    { x: 3.5, y: 1.5, r: 0.5 },
-    { x: 3.5, y: 6.5, r: 0.5 },
-    { x: 5.5, y: 7.5, r: 0.5 },
-    { x: 6.5, y: 5.5, r: 0.5 },
-    { x: 9.5, y: 9.5, r: 0.5, goal: true },
+    { x: 3.35, y: 1.35, r: 0.5 },
+    { x: 3.35, y: 6.35, r: 0.5 },
+    { x: 5.35, y: 7.55, r: 0.5 },
+    { x: 6.65, y: 5.35, r: 0.5 },
+    { x: 7.45, y: 3.35, r: 0.5 },
+    { x: 7.45, y: 7.35, r: 0.5 },
+    { x: 9.35, y: 9.35, r: 0.5, goal: true },
   ];
   for (var i = 0; i < holes.length; i++) {
       maze.makeSpriteElement('<img src="/images/hole.png">', holes[i]);
@@ -158,14 +161,14 @@ $(function() {
                     ball.x = position.e(1);
                     ball.y = position.e(2);
                     ball.element.animate({
-                        width: '0',
-                        height: '0',
+                        /*
                         'margin-top': ball.height/2 + 'px',
                         'margin-left': ball.width/2 + 'px',
+                        */
                         opacity: 0,
                         left: holes[i].element.css('left'),
                         top: holes[i].element.css('top')
-                    }, 1300);
+                    }, 700);
                     if (holes[i].goal) {
                         socket.emit("success");
                         // display success message, etc.
@@ -208,29 +211,17 @@ $(function() {
     $('#status').html('Your device does not support orientation reading. Please use Android 4.0 or later, iOS (MBP laptop is fine) or similar platform.');
   }
 
+  var makeBall = function () {
+    var ball = { x: 1, y: 1, vx: 0, vy: 0, r: 0.5, };
+    return ball;
+  };
 
   socket.on("connect", function() {
-    var ball = {
-      x: 0.5,
-      y: 0.5,
-      vx: 0,
-      vy: 0,
-      r: 0.5,
-    };
-
-    balls.push(ball);
+    balls.push(makeBall());
   });
 
   socket.on("reset", function() {
-    var ball = {
-      x: 0.5,
-      y: 0.5,
-      vx: 0,
-      vy: 0,
-      r: 0.5,
-    };
-
-    balls.push(ball);
+    balls.push(makeBall());
   });
 
   socket.on("game_over", function() {
